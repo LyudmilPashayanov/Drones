@@ -40,7 +40,7 @@ public class JobsListView : MonoBehaviour
         JobsListItemView item = Instantiate(itemPrefab, content);
 
         // convert Job → JobData for UI
-        item.SetData(new JobData(job));
+        item.Initialize(job, _vm);
 
         _jobItems.Add(job, item);
 

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 
@@ -23,22 +22,17 @@ namespace UI.Drones
         {
             _vm.DroneAdded += AddItem;
             _vm.DroneStateUpdated += UpdateDroneState;
-
-            foreach (var drone in _vm.Drones)
-            {
-                AddItem(drone);
-            }
         }
 
         private void UpdateDroneState(DroneData obj)
         {
-            _droneItems[obj].UpdateState(obj.State.ToString());
+            _droneItems[obj].UpdateState(obj);
         }
 
         void AddItem(DroneData info)
         {
             DroneListItemView droneItem = Instantiate(itemPrefab, content);
-            droneItem.SetData(info);
+            droneItem.Initialize(info, _vm);
             _droneItems.Add(info, droneItem);
             ResizeScrollView(droneItem.GetComponent<RectTransform>());
         }

@@ -29,7 +29,5 @@ public class GameLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<DroneListView>();
         builder.RegisterComponentInHierarchy<JobsListView>();
         builder.RegisterComponentInHierarchy<ControlPanelView>();
-
-
     }
 }

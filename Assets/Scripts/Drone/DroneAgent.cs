@@ -24,6 +24,10 @@ public class DroneAgent : MonoBehaviour
         Vector3 target = new Vector3(coord.row, coord.col, coord.depth);
 
         transform.DOMove(target, _moveDuration)
-            .SetEase(Ease.Linear);
+            .SetEase(Ease.Linear).OnComplete(() =>
+            {
+                // Notify the drone that its step is completed
+                _drone.StepCompleted();
+            });;
     }
 }

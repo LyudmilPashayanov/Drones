@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public struct JobData
 {
     public string Id;

@@ -18,9 +18,7 @@ public class DroneTester : MonoBehaviour
     {
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            
-           
-            //_coordinator.StartSimulation();
+            _coordinator.StartSimulation();
         }
     }
 }

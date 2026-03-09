@@ -38,48 +38,36 @@ public class DroneFactory : MonoBehaviour
 
     private Drone CreateDrone(Vector3Int position)
     {
-        /*Drone drone = Instantiate(dronePrefab, position, Quaternion.identity);
-        Color randomColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
-        
-        var info = new DroneData(
-            $"Drone {_droneCounter++}",
-            randomColor,
-            DroneState.Idle
-        );
-        
-        drone.Initialize(_pathfinder, _traffic, _dronesVm, info);
-
-        _coordinator.RegisterDrone(drone);
-        
-        
-        _dronesVm.AddDrone(info);
-        return drone;*/
         var startCoord = new WorldCoordinates
         {
             row = position.x,
             col = position.y,
             depth = position.z
         };
+
+        DroneData newDroneData = GenerateNextDroneData();
+        Drone drone = new Drone(_pathfinder, _traffic, startCoord, newDroneData);
+        DroneAgent agent = Instantiate(dronePrefab, position, Quaternion.identity);
+
+        agent.Initialize(drone, newDroneData);
+
+
+        _dronesVm.AddDrone(newDroneData, drone);
         
-        Drone drone = new Drone(_pathfinder, _traffic, startCoord);
+        _coordinator.RegisterDrone(drone);
+        return drone;
+    }
 
-        DroneAgent agent =
-            Instantiate(dronePrefab, position, Quaternion.identity);
-
+    private DroneData GenerateNextDroneData()
+    {
         Color randomColor = Random.ColorHSV(0f,1f,1f,1f,0.5f,1f);
 
-        var info = new DroneData(
+        DroneData droneData = new DroneData(
             $"Drone {_droneCounter++}",
             randomColor,
-            DroneState.Idle
+            DroneState.Idle, 
+            string.Empty
         );
-
-        agent.Initialize(drone, info);
-
-        _coordinator.RegisterDrone(drone);
-
-        _dronesVm.AddDrone(info);
-
-        return drone;
+        return droneData;
     }
 }

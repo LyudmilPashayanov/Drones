@@ -8,14 +8,27 @@ public class JobsViewModel
 
     public event Action<Job> JobAdded;
     public event Action<Job> JobUpdated;
+    public event Action<Job> JobSelected; // UI selection
 
+    private Job _selectedJob;
+    public Job SelectedJob
+    {
+        get => _selectedJob;
+        set
+        {
+            _selectedJob = value;
+            JobSelected?.Invoke(_selectedJob);
+        }
+    }
+    
     public void AddJob(Job job)
     {
         _jobs.Add(job);
+        job.OnJobUpdated += UpdateJob;
         JobAdded?.Invoke(job);
     }
 
-    public void UpdateJob(Job job)
+    private void UpdateJob(Job job)
     {
         JobUpdated?.Invoke(job);
     }

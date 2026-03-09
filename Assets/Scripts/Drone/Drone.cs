@@ -1,51 +1,74 @@
 using System;
 using System.Collections.Generic;
 using Pathfinding;
+using UI.Drones;
 
 public class Drone
 {
     private readonly IPathfinder _pathfinder;
     private readonly TrafficController _traffic;
 
-    private WorldCoordinates _position;
+    private readonly DroneData _droneData;
+    public DroneData GetDroneData() => _droneData;
 
+    private WorldCoordinates _position;
     private List<WorldCoordinates> _path;
     private int _pathIndex;
-
     private Job _currentJob;
     private DroneState _state = DroneState.Idle;
 
-    public WorldCoordinates Position => _position;
-
-    public bool HasFinished => _path == null || _pathIndex >= _path.Count;
-
+    public bool HasFinished
+    {
+        get
+        {
+            if (_currentJob != null) return false;
+            if (_path == null) return true;
+            return _pathIndex >= _path.Count;
+        }
+    }
+    
     public event Action<WorldCoordinates> OnMoveRequested;
     public event Action<Drone> OnMoveCompleted;
 
-    public Drone(IPathfinder pathfinder, TrafficController traffic, WorldCoordinates start)
+    public Drone(IPathfinder pathfinder, TrafficController traffic, WorldCoordinates start, DroneData initialData)
     {
         _pathfinder = pathfinder;
         _traffic = traffic;
         _position = start;
+        _droneData = initialData;
     }
 
     public void AssignJob(Job job)
     {
         if (_state != DroneState.Idle)
+        {
             return;
+        }
 
+        ResetState();
+        
         _currentJob = job;
-        _state = DroneState.MovingToPickup;
+        _currentJob.AssignedDrone = this;
 
-        job.Status = JobStatus.Assigned;
-        job.AssignedDrone = this;
+        _droneData.AssignedJobId = _currentJob.Id;
+        
+        SetDroneState(DroneState.MovingToPickup);
+        SetJobState(JobStatus.Assigned);
+        
 
         SetDestination(job.Pickup);
     }
 
-    public void AttemptMove()
+    private void SetDestination(WorldCoordinates target)
     {
-        if (HasFinished)
+        _path = _pathfinder.FindPath(_position, target);
+        _pathIndex = 0;
+    }
+
+    // Single-step movement
+    public void Step()
+    {
+        if (_path == null || _pathIndex >= _path.Count)
         {
             DestinationReached();
             OnMoveCompleted?.Invoke(this);
@@ -60,33 +83,53 @@ public class Drone
             return;
         }
 
-        _pathIndex++;
         _position = next;
+        _pathIndex++;
 
         OnMoveRequested?.Invoke(next);
     }
-
+    
     private void DestinationReached()
     {
         if (_currentJob == null)
+        {
+            SetDroneState(DroneState.Idle);
             return;
+        }
 
         if (_state == DroneState.MovingToPickup)
         {
-            _state = DroneState.MovingToDropoff;
+            SetDroneState(DroneState.MovingToDropoff);
             SetDestination(_currentJob.Dropoff);
         }
-        else
+        else if (_state == DroneState.MovingToDropoff)
         {
-            _currentJob.Status = JobStatus.Completed;
-            _currentJob = null;
-            _state = DroneState.Idle;
+            SetJobState(JobStatus.Completed);
+            SetDroneState(DroneState.Idle);
+            ResetState();
         }
     }
 
-    private void SetDestination(WorldCoordinates target)
+    private void ResetState()
     {
-        _path = _pathfinder.FindPath(_position, target);
+        _currentJob = null;
+        _path = null;
         _pathIndex = 0;
+    }
+    
+    public void StepCompleted()
+    {
+        OnMoveCompleted?.Invoke(this);
+    }
+    
+    private void SetDroneState(DroneState state)
+    {
+        _state = state;
+        _droneData.State = state;
+    }
+
+    private void SetJobState(JobStatus status)
+    {
+        _currentJob.Status = status;
     }
 }

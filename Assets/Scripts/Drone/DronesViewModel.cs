@@ -4,21 +4,43 @@ using UI.Drones;
 
 public class DronesViewModel
 {
-    private readonly List<DroneData> _drones = new();
-
-    public IReadOnlyList<DroneData> Drones => _drones;
+    private readonly Dictionary<DroneData, Drone> _droneLookup = new();
 
     public event Action<DroneData> DroneAdded;
     public event Action<DroneData> DroneStateUpdated;
+    
+    public event Action<Drone> DroneSelected; 
 
-    public void AddDrone(DroneData drone)
+    private Drone _selectedDrone;
+    public Drone SelectedDrone
     {
-        _drones.Add(drone);
-        DroneAdded?.Invoke(drone);
+        get => _selectedDrone;
+        set
+        {
+            _selectedDrone = value;
+            DroneSelected?.Invoke(_selectedDrone);
+        }
     }
-
-    public void UpdateDroneData(DroneData droneDataToUpdate)
+    
+    public void AddDrone(DroneData droneData, Drone drone)
+    {
+        _droneLookup[droneData] = drone;
+        droneData.OnDroneDataUpdated += UpdateDroneData;
+        DroneAdded?.Invoke(droneData);
+    }
+    
+    public Drone GetDroneFromData(DroneData data)
+    {
+        return _droneLookup.TryGetValue(data, out var drone) ? drone : null;
+    }
+    
+    private void UpdateDroneData(DroneData droneDataToUpdate)
     {
         DroneStateUpdated?.Invoke(droneDataToUpdate);
+    }
+
+    public void SelectDrone(DroneData droneData)
+    {
+        SelectedDrone = _droneLookup.TryGetValue(droneData, out var drone) ? drone : null;
     }
 }

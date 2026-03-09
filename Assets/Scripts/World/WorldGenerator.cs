@@ -36,10 +36,10 @@ public class WorldGenerator : MonoBehaviour
                     if (row == 0)
                     {
                         blocked = true;
-                        /*if (col == 0 )
+                        if (col == 0 )
                         {
                             blocked = false;
-                        }*/  
+                        } 
                     }
                     
                     newBlock.Initialize(coordinates, blocked);
