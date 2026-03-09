@@ -2147,6 +2147,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 416467033}
+  - component: {fileID: 416467034}
   m_Layer: 5
   m_Name: JobsListView
   m_TagString: Untagged
@@ -2174,6 +2175,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &416467034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416467032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51794601e5bc2364cad6871f58aa7b75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JobsListView
+  content: {fileID: 383165384}
+  itemPrefab: {fileID: 7857816526849671156, guid: 0d25e43bb4daa6147ae3801e3e879777, type: 3}
 --- !u!1 &471548975
 GameObject:
   m_ObjectHideFlags: 0
@@ -4904,7 +4919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a4116f94801e44389a4d42f7e525ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroneFactory
-  dronePrefab: {fileID: 9136548005909506933, guid: 5d322a51fed187349a8bcf64d00e39b0, type: 3}
+  dronePrefab: {fileID: 757438387792988836, guid: 5d322a51fed187349a8bcf64d00e39b0, type: 3}
   count: 10
 --- !u!4 &1186065851
 Transform:

@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class DroneListItemView : MonoBehaviour
 {
-    public TMP_Text nameText;
-    public TMP_Text stateText;
-    public TMP_Text assignedJobText;
-    public Image colorImage;
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text stateText;
+    [SerializeField] private TMP_Text assignedJobText;
+    [SerializeField] private Image colorImage;
 
     public void SetData(DroneData info)
     {

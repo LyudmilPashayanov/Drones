@@ -8,9 +8,14 @@ public class ControlPanelView : MonoBehaviour
    [SerializeField] private CoordinatesInputField DropOffInputField;
    [SerializeField] private Button CreateJobButton;
 
-   [Inject] private JobsViewModel _jobsVM;
+   private JobsViewModel _jobsVM;
    private int jobCounter = 0;
-   
+
+   [Inject]
+   public void Construct(JobsViewModel jobsVM)
+   {
+      _jobsVM = jobsVM;
+   }
    
    private void Start()
    {

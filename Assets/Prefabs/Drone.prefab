@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4922078790477912058}
-  - component: {fileID: 9136548005909506933}
+  - component: {fileID: 757438387792988836}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 4354939700432195237}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9136548005909506933
+--- !u!114 &757438387792988836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,11 +42,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 798055700269166360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3666b430820282b4bae39c31b4c5ca7f, type: 3}
+  m_Script: {fileID: 11500000, guid: effdb09c0b13a004798c99d8041c4ffd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Drone
+  m_EditorClassIdentifier: Assembly-CSharp::DroneAgent
+  _renderer: {fileID: 638524919526751312}
   _moveDuration: 0.35
-  _droneRenderer: {fileID: 638524919526751312}
 --- !u!1 &8643164675283123635
 GameObject:
   m_ObjectHideFlags: 0

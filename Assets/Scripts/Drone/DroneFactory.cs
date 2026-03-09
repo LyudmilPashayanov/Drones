@@ -5,7 +5,8 @@ using VContainer;
 
 public class DroneFactory : MonoBehaviour
 {
-    public Drone dronePrefab;
+    //public Drone dronePrefab;
+    public DroneAgent dronePrefab;
     public int count = 10;
 
     private IPathfinder _pathfinder;
@@ -31,13 +32,13 @@ public class DroneFactory : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            CreateDrone(new Vector3(-4 + i, 0, 0));
+            CreateDrone(new Vector3Int(-4 + i, 0, 0));
         }
     }
 
-    private Drone CreateDrone(Vector3 position)
+    private Drone CreateDrone(Vector3Int position)
     {
-        Drone drone = Instantiate(dronePrefab, position, Quaternion.identity);
+        /*Drone drone = Instantiate(dronePrefab, position, Quaternion.identity);
         Color randomColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         
         var info = new DroneData(
@@ -52,6 +53,33 @@ public class DroneFactory : MonoBehaviour
         
         
         _dronesVm.AddDrone(info);
+        return drone;*/
+        var startCoord = new WorldCoordinates
+        {
+            row = position.x,
+            col = position.y,
+            depth = position.z
+        };
+        
+        Drone drone = new Drone(_pathfinder, _traffic, startCoord);
+
+        DroneAgent agent =
+            Instantiate(dronePrefab, position, Quaternion.identity);
+
+        Color randomColor = Random.ColorHSV(0f,1f,1f,1f,0.5f,1f);
+
+        var info = new DroneData(
+            $"Drone {_droneCounter++}",
+            randomColor,
+            DroneState.Idle
+        );
+
+        agent.Initialize(drone, info);
+
+        _coordinator.RegisterDrone(drone);
+
+        _dronesVm.AddDrone(info);
+
         return drone;
     }
 }
