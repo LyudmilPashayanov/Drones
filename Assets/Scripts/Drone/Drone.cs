@@ -2,13 +2,23 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Pathfinding;
+using UI.Drones;
 using UnityEngine;
 
-public class Drone : MonoBehaviour
+public class Drone : MonoBehaviour // Make this pure C# and move the unity logic to a diff class.
 {
+    //TODO: Split the class in several subclasses- drone engine (moving) & drone job doer (jobs)
+    
     [SerializeField] private float _moveDuration = 0.35f;
+    [SerializeField] private MeshRenderer _droneRenderer;
     private IPathfinder _pathfinder;
     private TrafficController _traffic;
+    private DronesViewModel _droneVM;
+    
+    private Job _currentJob;
+    private bool _headingToPickup;
+    
+    private DroneData _droneData;
     
     private List<WorldCoordinates> _path;
     private int _pathIndex;
@@ -16,13 +26,38 @@ public class Drone : MonoBehaviour
     public bool HasFinished => _path == null || _pathIndex >= _path.Count;
     public event Action<Drone> OnMoveCompleted;
 
-    public void Initialize(IPathfinder pathfinder, TrafficController traffic)
+    public void Initialize(IPathfinder pathfinder, TrafficController traffic, DronesViewModel droneVM, DroneData droneData)
     {
         _pathfinder = pathfinder;
         _traffic = traffic;
+        _droneVM = droneVM;
+        ConstructDrone(droneData); // Move this to a separate class only the visual representation of the drone?
     }
+    
+    public void AssignJob(Job assignedJob)
+    {
+        if (_droneData.State != DroneState.Idle || _currentJob != null)
+            return;
 
-    public void SetDestination(WorldCoordinates target)
+        _currentJob = assignedJob;
+        _droneData.State = DroneState.ExecutingJob;
+        _headingToPickup = true;
+        
+        assignedJob.Status = JobStatus.Assigned;
+        assignedJob.AssignedDrone = this;
+        
+        SetDestination(_currentJob.Pickup);
+    }
+    
+    private void ConstructDrone(DroneData droneData)
+    {
+        _droneData =  droneData;
+        
+        gameObject.name = droneData.Name;
+        _droneRenderer.material.color = droneData.Color;
+    }
+    
+    private void SetDestination(WorldCoordinates target)
     {
         WorldCoordinates start = GetCurrentCoordinate();
 
@@ -35,6 +70,7 @@ public class Drone : MonoBehaviour
         if (HasFinished)
         {
             OnMoveCompleted?.Invoke(this);
+            DestinationReached();
             return;
         }
 
@@ -50,6 +86,33 @@ public class Drone : MonoBehaviour
         MoveAnimated(to);
     }
 
+    private void DestinationReached()
+    {
+        if (_currentJob == null)
+        {
+            return;
+        }
+        
+        switch (_droneData.State)
+        {
+            case DroneState.MovingToPickup:
+            {
+                _droneData.State = DroneState.MovingToDropoff;
+                SetDestination(_currentJob.Dropoff);
+
+                break;
+            }
+            case DroneState.MovingToDropoff:
+            {
+                _currentJob.Status = JobStatus.Completed;
+                _droneData.State = DroneState.Idle;
+                _currentJob = null;
+
+                break;
+            }
+        }
+    }
+
     private void MoveAnimated(WorldCoordinates coord)
     {
         Vector3 target = CoordinateToWorld(coord);
@@ -62,7 +125,7 @@ public class Drone : MonoBehaviour
                 OnMoveCompleted?.Invoke(this);
             });
     }
-
+    
     private WorldCoordinates GetCurrentCoordinate()
     {
         Vector3 pos = transform.position;

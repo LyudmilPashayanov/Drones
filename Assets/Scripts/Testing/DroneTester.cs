@@ -16,7 +16,6 @@ public class DroneTester : MonoBehaviour
     
     private void Update()
     {
-
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             _drones = FindObjectsOfType<Drone>();
@@ -32,7 +31,7 @@ public class DroneTester : MonoBehaviour
 
                 Debug.Log($"Moving drone to {target.row},{target.col},{target.depth}");
 
-                drone.SetDestination(target);
+                //drone.SetDestination(target);
                 
             }
            

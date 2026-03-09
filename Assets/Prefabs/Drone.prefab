@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3666b430820282b4bae39c31b4c5ca7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Drone
-  _moveSpeed: 4
-  _arrivalDistance: 0.05
+  _moveDuration: 0.35
+  _droneRenderer: {fileID: 638524919526751312}
 --- !u!1 &8643164675283123635
 GameObject:
   m_ObjectHideFlags: 0

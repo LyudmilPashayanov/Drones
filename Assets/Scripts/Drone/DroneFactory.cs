@@ -1,4 +1,5 @@
 using Pathfinding;
+using UI.Drones;
 using UnityEngine;
 using VContainer;
 
@@ -10,16 +11,20 @@ public class DroneFactory : MonoBehaviour
     private IPathfinder _pathfinder;
     private TrafficController _traffic;
     private StepCoordinator _coordinator;
+    private DronesViewModel _dronesVm;
+    private int _droneCounter;
 
     [Inject]
     public void Construct(
         IPathfinder pathfinder,
         TrafficController traffic,
-        StepCoordinator coordinator)
+        StepCoordinator coordinator,
+        DronesViewModel dronesVm)
     {
         _pathfinder = pathfinder;
         _traffic = traffic;
         _coordinator = coordinator;
+        _dronesVm = dronesVm;
     }
 
     void Start()
@@ -28,17 +33,25 @@ public class DroneFactory : MonoBehaviour
         {
             CreateDrone(new Vector3(-4 + i, 0, 0));
         }
-
     }
 
     private Drone CreateDrone(Vector3 position)
     {
         Drone drone = Instantiate(dronePrefab, position, Quaternion.identity);
-
-        drone.Initialize(_pathfinder, _traffic);
+        Color randomColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+        
+        var info = new DroneData(
+            $"Drone {_droneCounter++}",
+            randomColor,
+            DroneState.Idle
+        );
+        
+        drone.Initialize(_pathfinder, _traffic, _dronesVm, info);
 
         _coordinator.RegisterDrone(drone);
-
+        
+        
+        _dronesVm.AddDrone(info);
         return drone;
     }
 }

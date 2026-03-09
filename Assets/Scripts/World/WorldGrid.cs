@@ -15,7 +15,6 @@ public class WorldGrid
     {
         if (!_blocks.TryGetValue(coord, out var block))
         {
-            Debug.Log("Missing cell: " + coord.row + "," + coord.col + "," + coord.depth);
             return false;
         }
 

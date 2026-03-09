@@ -3,6 +3,13 @@ using System;
 public struct WorldCoordinates
 {
     public int row, col, depth;
+
+    public WorldCoordinates(int row, int col, int depth)
+    {
+        this.row = row;
+        this.col = col;
+        this.depth = depth;
+    }
     
     public override bool Equals(object obj)
     {
