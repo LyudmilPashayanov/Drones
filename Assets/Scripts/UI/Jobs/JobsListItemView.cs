@@ -19,10 +19,10 @@ namespace UI.Jobs
         private Job _job;
         private JobsViewModel _jobsVm;
     
-        public void Initialize(Job job, JobsViewModel jobsVM)
+        public void Initialize(Job job, JobsViewModel jobsVm)
         {
             _job = job;
-            _jobsVm = jobsVM;
+            _jobsVm = jobsVm;
             SetData(new JobData(job));
             _jobsVm.JobSelected += OnJobSelected;
         }

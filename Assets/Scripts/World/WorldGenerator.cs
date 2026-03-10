@@ -5,6 +5,8 @@ namespace World
 {
     public class WorldGenerator : MonoBehaviour
     {
+        private const int WORLD_BOUNDS = 5;
+        
         private WorldGrid _grid;
 
         [SerializeField] private Transform spawnLocation;
@@ -23,11 +25,11 @@ namespace World
 
         private void GenerateWorld()
         {
-            for (int row = -5; row < 5; row++)
+            for (int row = -WORLD_BOUNDS; row <= WORLD_BOUNDS; row++)
             {
-                for (int col = -5; col < 5; col++)
+                for (int col = -WORLD_BOUNDS; col <= WORLD_BOUNDS; col++)
                 {
-                    for (int depth = -5; depth < 5; depth++)
+                    for (int depth = -WORLD_BOUNDS; depth <= WORLD_BOUNDS; depth++)
                     {
                         bool blocked = false;
                         string blockName = row + "_" + col + "_" + depth;

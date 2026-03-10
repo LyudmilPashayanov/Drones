@@ -43,7 +43,6 @@ namespace UI.Jobs
         {
             JobsListItemView item = Instantiate(itemPrefab, content);
 
-            // convert Job → JobData for UI
             item.Initialize(job, _vm);
 
             _jobItems.Add(job, item);
