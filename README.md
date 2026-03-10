@@ -16,6 +16,88 @@ Drones navigate a grid world using pathfinding and execute jobs step-by-step whi
      you need to click the assign Drones <-> Jobs button. Then the selected drone will be ready to perform the selected job.
    - Start the simulation - All drones, which have been assigned a job will start executing their job and their status will change accordingly.
 5. For the sake of easier testing I am pre-creating 3 drones and 2 jobs to test the assignment. Feel free to Create new jobs or modify the DroneFactory gameObject in the hierarchy to spawn more drones in the world.
+## High-Level Architecture
+
+The project is structured into several layers to keep the simulation logic decoupled from the Unity presentation layer.
+ ### UI Layer
+
+Unity `MonoBehaviour` components responsible for **rendering and user interaction**.
+
+Examples:
+
+- `ControlPanelView`
+- `DroneListView`
+- `JobsListView`
+
+These classes contain **no simulation logic** and only display data provided by the ViewModels.
+
+---
+
+### ViewModel Layer
+
+Acts as the **bridge between the UI and the simulation layer**.
+
+Responsibilities:
+
+- Expose simulation data to the UI
+- Translate UI actions into simulation commands
+
+Examples:
+
+- `DronesViewModel`
+- `JobsViewModel`
+
+---
+
+### Simulation Layer
+
+Contains the **core logic of the drone simulation**.
+
+Main responsibilities:
+
+- Job assignment
+- Drone movement
+- Pathfinding
+- Step-based simulation control
+
+Key classes include:
+
+- `Drone`
+- `Job`
+- `StepCoordinator`
+- `TrafficController`
+- `IPathfinder` implementations
+
+These classes are implemented as **pure C# classes without Unity dependencies**, making the simulation logic easier to test and maintain.
+
+---
+
+### World Layer
+
+Represents the **grid environment** the drones operate in.
+
+Key components:
+
+- `WorldGrid`
+- `WorldGenerator`
+- `WorldCoordinates`
+- `WorldBlock`
+
+This layer provides **spatial data and world queries** used by the simulation systems.
+
+---
+
+### Dependency Injection
+
+All systems are wired together using **VContainer**.
+
+`GameLifetimeScope` registers core systems and installers:
+
+- `SimulationInstaller`
+- `GameplayInstaller`
+- `UIInstaller`
+
+This approach keeps dependencies **explicit**, improving maintainability and making systems easier to replace or extend.
 
 ## Key Architectural Decisions
 
@@ -69,23 +151,7 @@ This allows systems such as:
 
 to remain **loosely coupled and easily replaceable**, improving maintainability and testability.
 
-## What I Prioritised in the 6-8 Hours
-
-Given the time constraint, I focused on **architecture and correctness** rather than ease of use in the UI.
-
-### 1. Clean Simulation Architecture
-
-The priority was building a system where:
-
-- Drones can be added dynamically
-- Jobs can be assigned at runtime
-- The simulation remains deterministic
-
-This resulted in the **StepCoordinator pattern**, where the simulation progresses step-by-step and synchronizes drone movement.
-
----
-
-### 2. Decoupling Simulation from Unity
+### Decoupling Simulation from Unity
 
 Simulation logic was implemented using **pure C# classes** rather than `MonoBehaviour` components.
 
@@ -97,7 +163,7 @@ Benefits:
 
 ---
 
-### 3. Collision-Safe Movement
+### Collision-Safe Movement
 
 A `TrafficController` was introduced to manage **cell reservations**.
 
@@ -105,7 +171,7 @@ This prevents two drones from occupying the same grid cell during the same simul
 
 ---
 
-### 4. Maintainable Architecture
+### Maintainable Architecture
 
 The project was structured into logical layers:
 
@@ -115,6 +181,29 @@ The project was structured into logical layers:
 - **Infrastructure**
 
 This makes the project easier to extend and maintain.
+
+## What I Prioritised in the first 2 Hours (After which I've spent around 6 more
+
+I initially approached the task by focusing on the **core simulation first**, before implementing the full assignment requirements.
+
+During the **first ~2 hours**, I built a minimal prototype of the drone simulation:
+
+- Implemented a simple grid world
+- Added basic drone movement
+- Implemented custom pathfinding
+- Verified that drones could navigate the world correctly
+
+At this stage, the system had **no job logic and no UI**. The goal was simply to validate the **core movement and pathfinding behaviour**.
+
+Once the simulation foundation was working, I extended the project to meet the assignment requirements. In total, I spent approximately **6–8 hours** implementing the rest of the features, including:
+
+- Job assignment logic
+- Step-based simulation coordination
+- Collision prevention via `TrafficController`
+- UI and ViewModel layers
+- Dependency injection setup
+- Code refactoring and architecture cleanup
+- Documentation
 
 ## What I Would Improve With More Time
 
