@@ -1,49 +1,53 @@
 using UnityEngine;
 using VContainer;
 
-public class WorldGenerator : MonoBehaviour
+namespace World
 {
-    private WorldGrid _grid;
-    
-    [SerializeField] private Transform _spawnLocation;
-    [SerializeField] private WorldBlock _blockPrefab;
+    public class WorldGenerator : MonoBehaviour
+    {
+        private WorldGrid _grid;
 
-    [Inject]
-    public void Construct(WorldGrid grid)
-    {
-        _grid = grid;
-    }
-    
-    private void Awake()
-    {
-        GenerateWorld();
-    }
+        [SerializeField] private Transform spawnLocation;
+        [SerializeField] private WorldBlock blockPrefab;
 
-    private void GenerateWorld()
-    {
-        for (int row = -5; row < 5; row++)
+        [Inject]
+        public void Construct(WorldGrid grid)
         {
-            for (int col = -5; col < 5; col++)
+            _grid = grid;
+        }
+
+        private void Awake()
+        {
+            GenerateWorld();
+        }
+
+        private void GenerateWorld()
+        {
+            for (int row = -5; row < 5; row++)
             {
-                for (int depth = -5; depth < 5; depth++)
+                for (int col = -5; col < 5; col++)
                 {
-                    bool blocked = false;
-                    string Name = row + "_" + col + "_" + depth;
-                    WorldCoordinates coordinates = new WorldCoordinates(){col = col, row = row, depth = depth};
-                    
-                    WorldBlock newBlock = Instantiate(_blockPrefab, new Vector3(row, col, depth), Quaternion.identity, _spawnLocation);
-                    newBlock.gameObject.name = Name;
-                    if (row == 0)
+                    for (int depth = -5; depth < 5; depth++)
                     {
-                        blocked = true;
-                        if (col == 0 )
+                        bool blocked = false;
+                        string blockName = row + "_" + col + "_" + depth;
+                        WorldCoordinates coordinates = new WorldCoordinates() { Col = col, Row = row, Depth = depth };
+
+                        WorldBlock newBlock = Instantiate(blockPrefab, new Vector3(row, col, depth),
+                            Quaternion.identity, spawnLocation);
+                        newBlock.gameObject.name = blockName;
+                        if (row == 0)
                         {
-                            blocked = false;
-                        } 
+                            blocked = true;
+                            if (col == 0)
+                            {
+                                blocked = false;
+                            }
+                        }
+
+                        newBlock.Initialize(coordinates, blocked);
+                        _grid.Register(newBlock);
                     }
-                    
-                    newBlock.Initialize(coordinates, blocked);
-                    _grid.Register(newBlock);
                 }
             }
         }

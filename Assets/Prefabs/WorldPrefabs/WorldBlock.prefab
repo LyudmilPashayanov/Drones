@@ -67,8 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2757bc79e021fc4bac8a04eaa15bd41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldBlock
-  _isBlocked: 0
-  _blocker: {fileID: 6080179505707512969}
+  isBlocked: 0
+  blocker: {fileID: 6080179505707512969}
 --- !u!1 &6080179505707512969
 GameObject:
   m_ObjectHideFlags: 0

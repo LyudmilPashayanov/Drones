@@ -1,61 +1,66 @@
 using System.Collections.Generic;
+using Core;
+using UI.ViewModels;
 using UnityEngine;
 using VContainer;
 
-public class JobsListView : MonoBehaviour
+namespace UI.Jobs
 {
-    [SerializeField] private RectTransform content;
-    [SerializeField] private JobsListItemView itemPrefab;
-
-    private readonly Dictionary<Job, JobsListItemView> _jobItems = new();
-    private JobsViewModel _vm;
-
-    [Inject]
-    public void Construct(JobsViewModel vm)
+    public class JobsListView : MonoBehaviour
     {
-        _vm = vm;
-    }
+        [SerializeField] private RectTransform content;
+        [SerializeField] private JobsListItemView itemPrefab;
 
-    void Start()
-    {
-        _vm.JobAdded += AddItem;
-        _vm.JobUpdated += UpdateJobState;
+        private readonly Dictionary<Job, JobsListItemView> _jobItems = new();
+        private JobsViewModel _vm;
 
-        foreach (var job in _vm.Jobs)
+        [Inject]
+        public void Construct(JobsViewModel vm)
         {
-            AddItem(job);
+            _vm = vm;
         }
-    }
 
-    private void UpdateJobState(Job job)
-    {
-        if (_jobItems.TryGetValue(job, out var item))
+        void Start()
         {
-            item.UpdateState(job.Status.ToString());
+            _vm.JobAdded += AddItem;
+            _vm.JobUpdated += UpdateJobState;
+
+            foreach (var job in _vm.Jobs)
+            {
+                AddItem(job);
+            }
         }
-    }
 
-    private void AddItem(Job job)
-    {
-        JobsListItemView item = Instantiate(itemPrefab, content);
+        private void UpdateJobState(Job job)
+        {
+            if (_jobItems.TryGetValue(job, out var item))
+            {
+                item.UpdateState(job.Status.ToString());
+            }
+        }
 
-        // convert Job → JobData for UI
-        item.Initialize(job, _vm);
+        private void AddItem(Job job)
+        {
+            JobsListItemView item = Instantiate(itemPrefab, content);
 
-        _jobItems.Add(job, item);
+            // convert Job → JobData for UI
+            item.Initialize(job, _vm);
 
-        ResizeScrollView(item.GetComponent<RectTransform>());
-    }
+            _jobItems.Add(job, item);
 
-    private void ResizeScrollView(RectTransform itemRect)
-    {
-        Vector2 currentSize = content.sizeDelta;
-        currentSize.y += itemRect.rect.height + 20;
-        content.sizeDelta = currentSize;
+            ResizeScrollView(item.GetComponent<RectTransform>());
+        }
 
-        itemRect.anchoredPosition = new Vector2(
-            itemRect.anchoredPosition.x,
-            -(content.sizeDelta.y - itemRect.rect.height - 20)
-        );
+        private void ResizeScrollView(RectTransform itemRect)
+        {
+            Vector2 currentSize = content.sizeDelta;
+            currentSize.y += itemRect.rect.height + 20;
+            content.sizeDelta = currentSize;
+
+            itemRect.anchoredPosition = new Vector2(
+                itemRect.anchoredPosition.x,
+                -(content.sizeDelta.y - itemRect.rect.height - 20)
+            );
+        }
     }
 }

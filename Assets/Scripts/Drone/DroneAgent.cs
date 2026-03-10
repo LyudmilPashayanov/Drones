@@ -1,33 +1,37 @@
 using DG.Tweening;
 using UI.Drones;
 using UnityEngine;
+using World;
 
-public class DroneAgent : MonoBehaviour
+namespace Core
 {
-    [SerializeField] private MeshRenderer _renderer;
-    [SerializeField] private float _moveDuration = 0.35f;
-
-    private Drone _drone;
-
-    public void Initialize(Drone drone, DroneData data)
+    public class DroneAgent : MonoBehaviour
     {
-        _drone = drone;
+        [SerializeField] private MeshRenderer _renderer;
+        [SerializeField] private float moveDuration = 0.35f;
 
-        gameObject.name = data.Name;
-        _renderer.material.color = data.Color;
+        private Drone _drone;
 
-        _drone.OnMoveRequested += MoveTo;
-    }
+        public void Initialize(Drone drone, DroneData data)
+        {
+            _drone = drone;
 
-    private void MoveTo(WorldCoordinates coord)
-    {
-        Vector3 target = new Vector3(coord.row, coord.col, coord.depth);
+            gameObject.name = data.Name;
+            _renderer.material.color = data.Color;
 
-        transform.DOMove(target, _moveDuration)
-            .SetEase(Ease.Linear).OnComplete(() =>
-            {
-                // Notify the drone that its step is completed
-                _drone.StepCompleted();
-            });;
+            _drone.OnMoveRequested += MoveTo;
+        }
+
+        private void MoveTo(WorldCoordinates coord)
+        {
+            Vector3 target = new Vector3(coord.Row, coord.Col, coord.Depth);
+
+            transform.DOMove(target, moveDuration)
+                .SetEase(Ease.Linear).OnComplete(() =>
+                {
+                    // Notify the drone that its step is completed
+                    _drone.StepCompleted();
+                });;
+        }
     }
 }

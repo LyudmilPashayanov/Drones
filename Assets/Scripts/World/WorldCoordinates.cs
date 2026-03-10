@@ -1,28 +1,31 @@
 using System;
 
-public struct WorldCoordinates
+namespace World
 {
-    public int row, col, depth;
-
-    public WorldCoordinates(int row, int col, int depth)
+    public struct WorldCoordinates
     {
-        this.row = row;
-        this.col = col;
-        this.depth = depth;
-    }
-    
-    public override bool Equals(object obj)
-    {
-        if (!(obj is WorldCoordinates other))
-            return false;
+        public int Row, Col, Depth;
 
-        return row == other.row &&
-               col == other.col &&
-               depth == other.depth;
-    }
+        public WorldCoordinates(int row, int col, int depth)
+        {
+            Row = row;
+            Col = col;
+            Depth = depth;
+        }
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(row, col, depth);
+        public override bool Equals(object obj)
+        {
+            if (!(obj is WorldCoordinates other))
+                return false;
+
+            return Row == other.Row &&
+                   Col == other.Col &&
+                   Depth == other.Depth;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Row, Col, Depth);
+        }
     }
 }

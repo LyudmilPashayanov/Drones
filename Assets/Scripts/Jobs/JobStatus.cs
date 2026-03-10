@@ -1,6 +1,9 @@
-public enum JobStatus
+namespace Core
 {
-    Pending,
-    Assigned,
-    Completed
+    public enum JobStatus
+    {
+        Pending,
+        Assigned,
+        Completed
+    }
 }

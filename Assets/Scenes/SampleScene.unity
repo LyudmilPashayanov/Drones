@@ -3181,8 +3181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce407b01af366a248a97fc76adfe9a6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldGenerator
-  _spawnLocation: {fileID: 729894162}
-  _blockPrefab: {fileID: 1276611358211670429, guid: 8533a32ea1e8b6547832c71058b391f1, type: 3}
+  spawnLocation: {fileID: 729894162}
+  blockPrefab: {fileID: 1276611358211670429, guid: 8533a32ea1e8b6547832c71058b391f1, type: 3}
 --- !u!1 &790232383
 GameObject:
   m_ObjectHideFlags: 0
@@ -4717,9 +4717,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57cb1277af355a143a5e6613e6a1c296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoordinatesInputField
-  _rowInputField: {fileID: 800208590}
-  _colInputField: {fileID: 12995144}
-  _depthInputField: {fileID: 2112781758}
+  rowInputField: {fileID: 800208590}
+  colInputField: {fileID: 12995144}
+  depthInputField: {fileID: 2112781758}
 --- !u!1 &1138445401
 GameObject:
   m_ObjectHideFlags: 0
@@ -5041,7 +5041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroneFactory
   dronePrefab: {fileID: 757438387792988836, guid: 5d322a51fed187349a8bcf64d00e39b0, type: 3}
-  count: 2
+  droneSpawnsCount: 10
 --- !u!4 &1186065851
 Transform:
   m_ObjectHideFlags: 0
@@ -6153,10 +6153,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb421494c042824e93a51a20351c425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlPanelView
-  PickUpInputField: {fileID: 1092055703}
-  DropOffInputField: {fileID: 2109006174}
-  CreateJobButton: {fileID: 537321763}
-  AssignJobButton: {fileID: 102847891}
+  pickUpInputField: {fileID: 1092055703}
+  dropOffInputField: {fileID: 2109006174}
+  createJobButton: {fileID: 537321763}
+  assignJobButton: {fileID: 102847891}
 --- !u!1 &1577712062
 GameObject:
   m_ObjectHideFlags: 0
@@ -7500,9 +7500,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57cb1277af355a143a5e6613e6a1c296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoordinatesInputField
-  _rowInputField: {fileID: 959678094}
-  _colInputField: {fileID: 2112152051}
-  _depthInputField: {fileID: 1145470469}
+  rowInputField: {fileID: 959678094}
+  colInputField: {fileID: 2112152051}
+  depthInputField: {fileID: 1145470469}
 --- !u!1 &2112152049
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core;
 using VContainer;
 
 namespace Pathfinding
@@ -22,7 +23,6 @@ namespace Pathfinding
                 _drones.Add(drone);
         }
 
-        // Start simulation if not already running
         public void StartSimulation()
         {
             if (_isRunning) return;
@@ -30,7 +30,6 @@ namespace Pathfinding
             ExecuteStep();
         }
 
-        // Single step for all drones
         private void ExecuteStep()
         {
             _traffic.ClearReservations();
@@ -55,13 +54,11 @@ namespace Pathfinding
                 return;
             }
 
-            // Subscribe first
             foreach (var drone in activeDrones)
             {
                 drone.OnMoveCompleted += OnDroneFinished;
             }
 
-            // Then execute moves
             foreach (var drone in activeDrones)
             {
                 drone.Step();

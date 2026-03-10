@@ -1,29 +1,31 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-public class WorldGrid
+namespace World
 {
-    private Dictionary<WorldCoordinates, WorldBlock> _blocks
-        = new Dictionary<WorldCoordinates, WorldBlock>();
-
-    public void Register(WorldBlock block)
+    public class WorldGrid
     {
-        _blocks[block.WorldPosition] = block;
-    }
+        private Dictionary<WorldCoordinates, WorldBlock> _blocks
+            = new Dictionary<WorldCoordinates, WorldBlock>();
 
-    public bool IsWalkable(WorldCoordinates coord)
-    {
-        if (!_blocks.TryGetValue(coord, out var block))
+        public void Register(WorldBlock block)
         {
-            return false;
+            _blocks[block.WorldPosition] = block;
         }
 
-        return !block.IsBlocked;
-    }
+        public bool IsWalkable(WorldCoordinates coord)
+        {
+            if (!_blocks.TryGetValue(coord, out var block))
+            {
+                return false;
+            }
 
-    public WorldBlock Get(WorldCoordinates coord)
-    {
-        _blocks.TryGetValue(coord, out var block);
-        return block;
+            return !block.IsBlocked;
+        }
+
+        public WorldBlock Get(WorldCoordinates coord)
+        {
+            _blocks.TryGetValue(coord, out var block);
+            return block;
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using World;
 
 namespace Pathfinding
 {
@@ -74,21 +75,21 @@ namespace Pathfinding
 
         private IEnumerable<WorldCoordinates> GetNeighbors(WorldCoordinates c)
         {
-            yield return new WorldCoordinates { row = c.row + 1, col = c.col, depth = c.depth };
-            yield return new WorldCoordinates { row = c.row - 1, col = c.col, depth = c.depth };
+            yield return new WorldCoordinates { Row = c.Row + 1, Col = c.Col, Depth = c.Depth };
+            yield return new WorldCoordinates { Row = c.Row - 1, Col = c.Col, Depth = c.Depth };
 
-            yield return new WorldCoordinates { row = c.row, col = c.col + 1, depth = c.depth };
-            yield return new WorldCoordinates { row = c.row, col = c.col - 1, depth = c.depth };
+            yield return new WorldCoordinates { Row = c.Row, Col = c.Col + 1, Depth = c.Depth };
+            yield return new WorldCoordinates { Row = c.Row, Col = c.Col - 1, Depth = c.Depth };
 
-            yield return new WorldCoordinates { row = c.row, col = c.col, depth = c.depth + 1 };
-            yield return new WorldCoordinates { row = c.row, col = c.col, depth = c.depth - 1 };
+            yield return new WorldCoordinates { Row = c.Row, Col = c.Col, Depth = c.Depth + 1 };
+            yield return new WorldCoordinates { Row = c.Row, Col = c.Col, Depth = c.Depth - 1 };
         }
     
         private float Heuristic(WorldCoordinates a, WorldCoordinates b)
         {
-            return Mathf.Abs(a.row - b.row) +
-                   Mathf.Abs(a.col - b.col) +
-                   Mathf.Abs(a.depth - b.depth);
+            return Mathf.Abs(a.Row - b.Row) +
+                   Mathf.Abs(a.Col - b.Col) +
+                   Mathf.Abs(a.Depth - b.Depth);
         }
 
         private List<WorldCoordinates> ReconstructPath(

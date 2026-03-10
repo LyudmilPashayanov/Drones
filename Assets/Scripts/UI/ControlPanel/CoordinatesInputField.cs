@@ -1,24 +1,28 @@
 using TMPro;
 using UnityEngine;
+using World;
 
-public class CoordinatesInputField : MonoBehaviour
+namespace UI.ControlPanel
 {
-    [SerializeField] TMP_InputField _rowInputField;
-    [SerializeField] TMP_InputField _colInputField;
-    [SerializeField] TMP_InputField _depthInputField;
-
-    private void Start()
+    public class CoordinatesInputField : MonoBehaviour
     {
-        _rowInputField.text = "0";
-        _colInputField.text = "0";
-        _depthInputField.text = "0";
-    }
+        [SerializeField] private TMP_InputField rowInputField;
+        [SerializeField] private TMP_InputField colInputField;
+        [SerializeField] private TMP_InputField depthInputField;
 
-    public WorldCoordinates GetInputCoordinates()
-    {
-        int row = int.Parse(_rowInputField.text);
-        int col = int.Parse(_colInputField.text);
-        int depth = int.Parse(_depthInputField.text);
-        return new WorldCoordinates(row, col, depth);
+        private void Start()
+        {
+            rowInputField.text = "0";
+            colInputField.text = "0";
+            depthInputField.text = "0";
+        }
+
+        public WorldCoordinates GetInputCoordinates()
+        {
+            int row = int.Parse(rowInputField.text);
+            int col = int.Parse(colInputField.text);
+            int depth = int.Parse(depthInputField.text);
+            return new WorldCoordinates(row, col, depth);
+        }
     }
 }

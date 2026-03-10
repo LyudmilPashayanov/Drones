@@ -1,27 +1,30 @@
 using UnityEngine;
 
-public class WorldBlock : MonoBehaviour
+namespace World
 {
-   private WorldCoordinates _worldPosition;
-   [SerializeField] private bool _isBlocked = false;
-   [SerializeField] private GameObject _blocker;
+   public class WorldBlock : MonoBehaviour
+   {
+      private WorldCoordinates _worldPosition;
+      [SerializeField] private bool isBlocked = false;
+      [SerializeField] private GameObject blocker;
 
-   public bool IsBlocked => _isBlocked;
-   public WorldCoordinates WorldPosition => _worldPosition;
+      public bool IsBlocked => isBlocked;
+      public WorldCoordinates WorldPosition => _worldPosition;
    
-   public void Initialize(WorldCoordinates coordinates, bool isBlocked)
-   {
-      _worldPosition = coordinates;
-      
-      if (isBlocked)
+      public void Initialize(WorldCoordinates coordinates, bool isBlocked)
       {
-         Block();
+         _worldPosition = coordinates;
+      
+         if (isBlocked)
+         {
+            Block();
+         }
       }
-   }
 
-   private void Block()
-   {
-      _isBlocked = true;
-      _blocker.SetActive(true);
+      private void Block()
+      {
+         isBlocked = true;
+         blocker.SetActive(true);
+      }
    }
 }

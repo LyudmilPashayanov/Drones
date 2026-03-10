@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using World;
 
 namespace Pathfinding
 {
@@ -70,15 +71,14 @@ namespace Pathfinding
                 {
                     for (int dz = -1; dz <= 1; dz++)
                     {
-                        // skip the current cell
                         if (dx == 0 && dy == 0 && dz == 0)
                             continue;
 
                         yield return new WorldCoordinates
                         {
-                            row = c.row + dx,
-                            col = c.col + dy,
-                            depth = c.depth + dz
+                            Row = c.Row + dx,
+                            Col = c.Col + dy,
+                            Depth = c.Depth + dz
                         };
                     }
                 }
@@ -87,9 +87,9 @@ namespace Pathfinding
 
         private float Heuristic(WorldCoordinates a, WorldCoordinates b)
         {
-            float dx = a.row - b.row;
-            float dy = a.col - b.col;
-            float dz = a.depth - b.depth;
+            float dx = a.Row - b.Row;
+            float dy = a.Col - b.Col;
+            float dz = a.Depth - b.Depth;
             return Mathf.Sqrt(dx * dx + dy * dy + dz * dz);
         }
 
