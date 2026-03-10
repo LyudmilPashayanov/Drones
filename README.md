@@ -15,7 +15,9 @@ Drones navigate a grid world using pathfinding and execute jobs step-by-step whi
    - Assign Drones <-> Jobs (vice versa) - Once you have selected any Drone and any Job from the Drones & Jobs Scroll View on the Left of the screen - 
      you need to click the assign Drones <-> Jobs button. Then the selected drone will be ready to perform the selected job.
    - Start the simulation - All drones, which have been assigned a job will start executing their job and their status will change accordingly.
-5. For the sake of easier testing I am pre-creating 3 drones and 2 jobs to test the assignment. Feel free to Create new jobs or modify the DroneFactory gameObject in the hierarchy to spawn more drones in the world.
+5. For the sake of easier testing I am pre-creating 3 drones and 2 jobs to test the assignment. Feel free to Create new jobs or modify the DroneFactory gameObject in the hierarchy to spawn more drones in the world.6
+6. You can check/uncheck the "Random Blocks" in the 'WorldGenerator' script on the 'World' GameObject in the hierarchy.
+7. Look around how the simulation unfolds with your mouse and use WASD to move.    
 ## High-Level Architecture
 
 The project is structured into several layers to keep the simulation logic decoupled from the Unity presentation layer.
@@ -209,7 +211,9 @@ Once the simulation foundation was working, I extended the project to meet the a
 
 ### 1. Smarter Traffic Resolution
 
-Currently there are situations that a drone might fly through another drone. As in real life this will result in a crash, the Traffic system should be improved.
+- Currently there are situations that a drone might fly through another drone. As in real life this will result in a crash, the Traffic system should be improved.
+- If a job location is given to be a grid coordinate which is blocked, the UI should give an error.
+- 
 
 ---
 
