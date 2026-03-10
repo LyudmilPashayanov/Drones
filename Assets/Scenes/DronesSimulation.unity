@@ -1778,6 +1778,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1903,6 +1904,25 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6087f70ef9b3b146ac856cc05039ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyCamera
+  moveSpeed: 7
+  sprintMultiplier: 2
+  acceleration: 5
+  lookSpeed: 0.1
+  invertY: 0
+  moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  lookAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &339407121
 GameObject:
   m_ObjectHideFlags: 0
@@ -3304,6 +3324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldGenerator
   spawnLocation: {fileID: 729894162}
   blockPrefab: {fileID: 1276611358211670429, guid: 8533a32ea1e8b6547832c71058b391f1, type: 3}
+  randomBlocks: 1
 --- !u!1 &741641438
 GameObject:
   m_ObjectHideFlags: 0

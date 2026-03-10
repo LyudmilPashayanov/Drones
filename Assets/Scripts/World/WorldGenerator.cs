@@ -11,6 +11,7 @@ namespace World
 
         [SerializeField] private Transform spawnLocation;
         [SerializeField] private WorldBlock blockPrefab;
+        [SerializeField] private bool randomBlocks = false;
 
         [Inject]
         public void Construct(WorldGrid grid)
@@ -38,12 +39,22 @@ namespace World
                         WorldBlock newBlock = Instantiate(blockPrefab, new Vector3(row, col, depth),
                             Quaternion.identity, spawnLocation);
                         newBlock.gameObject.name = blockName;
-                        if (row == 0)
+                        if (randomBlocks)
                         {
-                            blocked = true;
-                            if (col == 0)
+                            if ( Random.value <= 0.1f)
                             {
-                                blocked = false;
+                                blocked = true;
+                            }
+                        }
+                        else
+                        {
+                            if (row == 0)
+                            {
+                                blocked = true;
+                                if (col == 0)
+                                {
+                                    blocked = false;
+                                }
                             }
                         }
 
